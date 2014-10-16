@@ -6,7 +6,7 @@ SECTIONS {
     *(.init)
   }
 
-  /DISCARD/: {
+  /DISCARD/ : {
     *(*)
   }
 }

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 .section .init
-.glob _start
+.globl _start
 
 _start:
 
