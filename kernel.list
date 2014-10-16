@@ -4,14 +4,13 @@ build/output.elf:     file format elf32-littlearm
 Disassembly of section .init:
 
 00008000 <_start>:
-    8000:	e59f0018 	ldr	r0, [pc, #24]	; 8020 <loop$+0x4>
+    8000:	e59f0014 	ldr	r0, [pc, #20]	; 801c <loop$+0x4>
     8004:	e3a01001 	mov	r1, #1	; 0x1
     8008:	e1a01901 	lsl	r1, r1, #18
     800c:	e5801004 	str	r1, [r0, #4]
-    8010:	e3a01001 	mov	r1, #1	; 0x1
-    8014:	e1a01801 	lsl	r1, r1, #16
-    8018:	e5801028 	str	r1, [r0, #40]
+    8010:	e1a01121 	lsr	r1, r1, #2
+    8014:	e5801028 	str	r1, [r0, #40]
 
-0000801c <loop$>:
-    801c:	eafffffe 	b	801c <loop$>
-    8020:	20200000 	.word	0x20200000
+00008018 <loop$>:
+    8018:	eafffffe 	b	8018 <loop$>
+    801c:	20200000 	.word	0x20200000

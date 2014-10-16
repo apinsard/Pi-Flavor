@@ -17,8 +17,9 @@ lsl r1,#18
 str r1,[r0,#4]
 
 # Turn off (#40) the 16th pin (#16) of the GPIO to turn on the ACT LED.
-mov r1,#1
-lsl r1,#16
+#mov r1,#1  // These two lines can be factorised in `lsr r1,#2`
+#lsl r1,#16 // since r1 currently contains 2^18
+lsr r1,#2
 str r1,[r0,#40]
 
 # End
