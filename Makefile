@@ -15,9 +15,6 @@ OBJECTS := $(patsubst $(SOURCE)/%.s,$(BUILD)/%.o,$(wildcard $(SOURCE)/*.s))
 
 all: $(TARGET) $(LIST)
 
-test:
-	echo $(ARMGNU)
-
 $(LIST): $(BUILD)/output.elf
 	$(ARMGNU)-objdump -d $< > $@
 
@@ -29,6 +26,12 @@ $(BUILD)/output.elf: $(OBJECTS) $(LINKER)
 
 $(BUILD)/%.o: $(SOURCE)/%.s
 	$(ARMAS) -I $(SOURCE) $< -o $@
+
+install: $(TARGET)
+	mount $(DEVICE) $(MNT)
+	cp $< $(MNT)
+	sync
+	umount $(MNT)
 
 clean:
 	rm -f $(BUILD)/*.o
