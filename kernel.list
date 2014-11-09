@@ -10,7 +10,7 @@ Disassembly of section .init:
     800c:	e5801004 	str	r1, [r0, #4]
     8010:	e1a01121 	lsr	r1, r1, #2
 
-00008014 <loop$>:
+00008014 <main$>:
     8014:	e5801028 	str	r1, [r0, #40]
     8018:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
 
@@ -25,5 +25,5 @@ Disassembly of section .init:
     8030:	e2422001 	sub	r2, r2, #1	; 0x1
     8034:	e3520000 	cmp	r2, #0	; 0x0
     8038:	1afffffc 	bne	8030 <wait2$>
-    803c:	eafffff4 	b	8014 <loop$>
+    803c:	eafffff4 	b	8014 <main$>
     8040:	20200000 	.word	0x20200000

@@ -18,29 +18,33 @@ mov r1,#1
 lsl r1,#18
 str r1,[r0,#4]
 
-# Turn off (#40) the 16th pin (#16) of the GPIO to turn on the ACT LED.
+# Preselect the 16th pin (#16) of the GPIO to turn on/off the ACT LED.
 #mov r1,#1  // These two lines can be factorised in `lsr r1,#2`
 #lsl r1,#16 // since r1 currently contains 2^18
 lsr r1,#2
 
-# Infinite loop
-loop$:
+# Main loop
+main$:
 
+# Turn off (#40) the pin to turn on the ACT LED
 str r1,[r0,#40]
 
+# Wait a few time
 mov r2,#0x3F0000
 wait1$:
 sub r2,#1
 cmp r2,#0
 bne wait1$
 
+# Turn on (#28) the pin to turn off the ACT LED
 str r1,[r0,#28]
 
+# Wait a few time
 mov r2,#0x3F0000
 wait2$:
 sub r2,#1
 cmp r2,#0
 bne wait2$
 
-b   loop$
+b   main$
 
