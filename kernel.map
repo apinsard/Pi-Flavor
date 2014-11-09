@@ -22,9 +22,9 @@ Linker script and memory map
 
 LOAD build/main.o
 
-.init           0x00008000       0x20
+.init           0x00008000       0x44
  *(.init)
- .init          0x00008000       0x20 build/main.o
+ .init          0x00008000       0x44 build/main.o
                 0x00008000                _start
 
 /DISCARD/

@@ -5,6 +5,8 @@
 _start:
 
 # Put the GPIO address in a registry
+# TODO this one should rather be a constant defined thanks to the preprocessor.
+# This would save up one actual instruction.
 ldr r0,=0x20200000
 
 # Enable output to the 16th GPIO pin
@@ -20,9 +22,25 @@ str r1,[r0,#4]
 #mov r1,#1  // These two lines can be factorised in `lsr r1,#2`
 #lsl r1,#16 // since r1 currently contains 2^18
 lsr r1,#2
+
+# Infinite loop
+loop$:
+
 str r1,[r0,#40]
 
-# End
-loop$:
+mov r2,#0x3F0000
+wait1$:
+sub r2,#1
+cmp r2,#0
+bne wait1$
+
+str r1,[r0,#28]
+
+mov r2,#0x3F0000
+wait2$:
+sub r2,#1
+cmp r2,#0
+bne wait2$
+
 b   loop$
 
