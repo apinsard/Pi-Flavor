@@ -4,18 +4,18 @@ build/output.elf:     file format elf32-littlearm
 Disassembly of section .init:
 
 00008000 <_start>:
-    8000:	ea000023 	b	8094 <main>
+    8000:	ea000020 	b	8088 <main>
 Disassembly of section .text:
 
 00008004 <GetGpioAddress>:
-    8004:	e59f0084 	ldr	r0, [pc, #132]	; 8090 <SetGpio+0x3c>
+    8004:	e59f0078 	ldr	r0, [pc, #120]	; 8084 <SetGpio+0x30>
     8008:	e1a0f00e 	mov	pc, lr
 
 0000800c <SetGpioFunction>:
     800c:	e3500035 	cmp	r0, #53	; 0x35
     8010:	93500007 	cmpls	r0, #7	; 0x7
     8014:	81a0f00e 	movhi	pc, lr
-    8018:	e59f2070 	ldr	r2, [pc, #112]	; 8090 <SetGpio+0x3c>
+    8018:	e59f2064 	ldr	r2, [pc, #100]	; 8084 <SetGpio+0x30>
 
 0000801c <funcCalcLoop$>:
     801c:	e3500009 	cmp	r0, #9	; 0x9
@@ -36,44 +36,41 @@ Disassembly of section .text:
 00008054 <SetGpio>:
     8054:	e3500035 	cmp	r0, #53	; 0x35
     8058:	81a0f00e 	movhi	pc, lr
-    805c:	e92d4000 	push	{lr}
-    8060:	e1a02000 	mov	r2, r0
-    8064:	ebffffe6 	bl	8004 <GetGpioAddress>
-    8068:	e1a032a2 	lsr	r3, r2, #5
-    806c:	e1a03103 	lsl	r3, r3, #2
-    8070:	e0800003 	add	r0, r0, r3
-    8074:	e202201f 	and	r2, r2, #31	; 0x1f
-    8078:	e3a03001 	mov	r3, #1	; 0x1
-    807c:	e1a03213 	lsl	r3, r3, r2
-    8080:	e3310000 	teq	r1, #0	; 0x0
-    8084:	05803028 	streq	r3, [r0, #40]
-    8088:	1580301c 	strne	r3, [r0, #28]
-    808c:	e8bd8000 	pop	{pc}
-    8090:	20200000 	.word	0x20200000
+    805c:	e59f2020 	ldr	r2, [pc, #32]	; 8084 <SetGpio+0x30>
+    8060:	e1a032a0 	lsr	r3, r0, #5
+    8064:	e0822103 	add	r2, r2, r3, lsl #2
+    8068:	e200001f 	and	r0, r0, #31	; 0x1f
+    806c:	e3a03001 	mov	r3, #1	; 0x1
+    8070:	e1a03013 	lsl	r3, r3, r0
+    8074:	e3310000 	teq	r1, #0	; 0x0
+    8078:	05823028 	streq	r3, [r2, #40]
+    807c:	1582301c 	strne	r3, [r2, #28]
+    8080:	e1a0f00e 	mov	pc, lr
+    8084:	20200000 	.word	0x20200000
 
-00008094 <main>:
-    8094:	e3a0d902 	mov	sp, #32768	; 0x8000
+00008088 <main>:
+    8088:	e3a0d902 	mov	sp, #32768	; 0x8000
+    808c:	e3a00010 	mov	r0, #16	; 0x10
+    8090:	e3a01001 	mov	r1, #1	; 0x1
+    8094:	ebffffdc 	bl	800c <SetGpioFunction>
+
+00008098 <mainloop$>:
     8098:	e3a00010 	mov	r0, #16	; 0x10
-    809c:	e3a01001 	mov	r1, #1	; 0x1
-    80a0:	ebffffd9 	bl	800c <SetGpioFunction>
+    809c:	e3a01000 	mov	r1, #0	; 0x0
+    80a0:	ebffffeb 	bl	8054 <SetGpio>
+    80a4:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
 
-000080a4 <mainloop$>:
-    80a4:	e3a00010 	mov	r0, #16	; 0x10
-    80a8:	e3a01000 	mov	r1, #0	; 0x0
-    80ac:	ebffffe8 	bl	8054 <SetGpio>
-    80b0:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
+000080a8 <wait1$>:
+    80a8:	e2422001 	sub	r2, r2, #1	; 0x1
+    80ac:	e3520000 	cmp	r2, #0	; 0x0
+    80b0:	1afffffc 	bne	80a8 <wait1$>
+    80b4:	e3a00010 	mov	r0, #16	; 0x10
+    80b8:	e3a01001 	mov	r1, #1	; 0x1
+    80bc:	ebffffe4 	bl	8054 <SetGpio>
+    80c0:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
 
-000080b4 <wait1$>:
-    80b4:	e2422001 	sub	r2, r2, #1	; 0x1
-    80b8:	e3520000 	cmp	r2, #0	; 0x0
-    80bc:	1afffffc 	bne	80b4 <wait1$>
-    80c0:	e3a00010 	mov	r0, #16	; 0x10
-    80c4:	e3a01001 	mov	r1, #1	; 0x1
-    80c8:	ebffffe1 	bl	8054 <SetGpio>
-    80cc:	e3a0283f 	mov	r2, #4128768	; 0x3f0000
-
-000080d0 <wait2$>:
-    80d0:	e2422001 	sub	r2, r2, #1	; 0x1
-    80d4:	e3520000 	cmp	r2, #0	; 0x0
-    80d8:	1afffffc 	bne	80d0 <wait2$>
-    80dc:	eafffff0 	b	80a4 <mainloop$>
+000080c4 <wait2$>:
+    80c4:	e2422001 	sub	r2, r2, #1	; 0x1
+    80c8:	e3520000 	cmp	r2, #0	; 0x0
+    80cc:	1afffffc 	bne	80c4 <wait2$>
+    80d0:	eafffff0 	b	8098 <mainloop$>
