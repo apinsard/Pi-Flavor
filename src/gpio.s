@@ -24,7 +24,7 @@ GetGpioAddress:
 
 @
 @ Apply a GPIO function to a pin.
-@ ~> r0: The offset of the 3 bits of the function pin in the block
+@ ~> r0: The previous content of the block
 @ ~> r1: The pin function at the right offset in the block (content of the block)
 @ ~> r2: The address of the block containing the given pin function.
 @ == r3
@@ -47,7 +47,7 @@ SetGpioFunction:
     subhi pinNum, #GPIO_PINS_PER_BLOCK
     addhi funcPinAddr, #GPIO_BLOCK_SIZE
   bhi funcCalcLoop$
-  
+
   @ Multiply pinNum by 3 to get the offset of the given set of 3 bits.
   add pinNum, pinNum, lsl #1
   .unreq pinNum
@@ -55,8 +55,12 @@ SetGpioFunction:
 
   @ Set the pin function
   lsl pinFunc, pinOffset
-  str pinFunc, [funcPinAddr]
   .unreq pinOffset
+  blockValue .req r0
+  ldr blockValue, [funcPinAddr]
+  orr pinFunc, blockValue
+  .unreq blockValue
+  str pinFunc, [funcPinAddr]
   .unreq pinFunc
   .unreq funcPinAddr
 
