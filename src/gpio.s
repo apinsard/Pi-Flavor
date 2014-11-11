@@ -24,10 +24,10 @@ GetGpioAddress:
 
 @
 @ Apply a GPIO function to a pin.
-@ ~> r0: The previous content of the block
+@ ~> r0: The offset of the 3 bits of the function pin in the block
 @ ~> r1: The pin function at the right offset in the block (content of the block)
 @ ~> r2: The address of the block containing the given pin function.
-@ == r3
+@ ~> r3: The previous content of the block
 SetGpioFunction:
   pinNum  .req r0 @ <- GPIO pin [0, GPIO_NB_PINS[
   pinFunc .req r1 @ <- Function [0, GPIO_NB_FUNCS[
@@ -53,11 +53,23 @@ SetGpioFunction:
   .unreq pinNum
   pinOffset .req r0
 
-  @ Set the pin function
+  @ Set the pin function at the right offset
   lsl pinFunc, pinOffset
+
+  @ Create a mask to keep other pins unchanged
+  blockMask .req r3
+  mov blockMask, #[GPIO_NB_FUNCS-1]
+  lsl blockMask, pinOffset
   .unreq pinOffset
+  mvn blockMask, blockMask
+
+  @ Load the current value of the block and reset the function of the wanted pin
   blockValue .req r0
   ldr blockValue, [funcPinAddr]
+  and blockValue, blockMask 
+  .unreq blockMask
+
+  @ Merge new pin function
   orr pinFunc, blockValue
   .unreq blockValue
   str pinFunc, [funcPinAddr]
