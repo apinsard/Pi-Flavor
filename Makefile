@@ -22,10 +22,10 @@ $(TARGET): $(BUILD)/output.elf
 	$(ARMGNU)-objcopy $< -O binary $@
 
 $(BUILD)/output.elf: $(OBJECTS) $(LINKER)
-	$(ARMLD) --no-undefined $< -Map $(MAP) -o $@ -T $(LINKER)
+	$(ARMLD) --no-undefined $(OBJECTS) -Map $(MAP) -o $@ -T $(LINKER)
 
 $(BUILD)/%.o: $(SOURCE)/%.s
-	$(ARMAS) -I $(SOURCE) $< -o $@
+	$(ARMAS) -I $(SOURCE)/ $< -o $@
 
 install: $(TARGET)
 	mount $(DEVICE) $(MNT)

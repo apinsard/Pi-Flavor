@@ -6,6 +6,11 @@ SECTIONS {
     *(.init)
   }
 
+  /* Then comes the rest of the code */
+  .text : {
+    *(.text)
+  }
+
   /DISCARD/ : {
     *(*)
   }
