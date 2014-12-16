@@ -31,12 +31,12 @@ mainloop$:
   .unreq pinNum
   .unreq pinVal
 
-  @ Wait a few time
-  mov r2,#0x3F0000
-  wait1$:
-    sub r2,#1
-    cmp r2,#0
-    bne wait1$
+  @ Wait ~1/20 second
+  nbUsec .req r0
+  mov nbUsec, #1
+  lsl nbUsec, #16
+  bl Wait
+  .unreq nbUsec
 
   @ Turn on the pin to turn off the ACT LED
   pinNum .req r0
@@ -47,12 +47,12 @@ mainloop$:
   .unreq pinNum
   .unreq pinVal
 
-  @ Wait a few time
-  mov r2,#0x3F0000
-  wait2$:
-    sub r2,#1
-    cmp r2,#0
-    bne wait2$
+  @ Wait ~1/2 second
+  nbUsec .req r0
+  mov nbUsec, #1
+  lsl nbUsec, #19
+  bl Wait
+  .unreq nbUsec
 
   b   mainloop$
 

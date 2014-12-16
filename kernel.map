@@ -21,6 +21,16 @@ Discarded input sections
  .janus_2cc_veneer
                 0x00000000        0x0 build/main.o
  .v4_bx         0x00000000        0x0 build/main.o
+ .data          0x00000000        0x0 build/timer.o
+ .bss           0x00000000        0x0 build/timer.o
+ .ARM.attributes
+                0x00000000        0x0 build/timer.o
+ .glue_7        0x00000000        0x0 build/timer.o
+ .glue_7t       0x00000000        0x0 build/timer.o
+ .vfp11_veneer  0x00000000        0x0 build/timer.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/timer.o
+ .v4_bx         0x00000000        0x0 build/timer.o
 
 Memory Configuration
 
@@ -31,19 +41,23 @@ Linker script and memory map
 
 LOAD build/gpio.o
 LOAD build/main.o
+LOAD build/timer.o
 
 .init           0x00008000        0x4
  *(.init)
  .init          0x00008000        0x4 build/main.o
                 0x00008000                _start
 
-.text           0x00008004       0xd0
+.text           0x00008004       0xfc
  *(.text)
  .text          0x00008004       0x84 build/gpio.o
                 0x0000800c                SetGpioFunction
                 0x00008004                GetGpioAddress
                 0x00008054                SetGpio
- .text          0x00008088       0x4c build/main.o
+ .text          0x00008088       0x44 build/main.o
+ .text          0x000080cc       0x34 build/timer.o
+                0x000080cc                GetCounterValue
+                0x000080d8                Wait
 
 /DISCARD/
  *(*)

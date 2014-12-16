@@ -26,7 +26,7 @@
 @ == r[1..3]
 GetGpioAddress:
   ldr r0, =GPIO_ADDR
-  mov pc, lr
+  mov pc, lr @ < Return
 
 @
 @ Apply a GPIO function to a pin.
