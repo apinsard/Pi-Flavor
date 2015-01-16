@@ -11,6 +11,11 @@ SECTIONS {
     *(.text)
   }
 
+  /* And finally the data */
+  .data : {
+    *(.data)
+  }
+
   /DISCARD/ : {
     *(*)
   }

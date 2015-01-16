@@ -48,10 +48,10 @@ SetGpioFunction:
 
   @ Calculate the function pin address (which block of 4 bytes?) in funcPinAddr
   @ and which set of 3 bits in pinNum.
-  funcCalcLoop$:
-    cmp   pinNum, #[GPIO_PINS_PER_BLOCK-1]
-    subhi pinNum, #GPIO_PINS_PER_BLOCK
-    addhi funcPinAddr, #GPIO_BLOCK_SIZE
+funcCalcLoop$:
+  cmp   pinNum, #[GPIO_PINS_PER_BLOCK-1]
+  subhi pinNum, #GPIO_PINS_PER_BLOCK
+  addhi funcPinAddr, #GPIO_BLOCK_SIZE
   bhi funcCalcLoop$
 
   @ Multiply pinNum by 3 to get the offset of the given set of 3 bits.

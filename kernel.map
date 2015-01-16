@@ -1,7 +1,6 @@
 
 Discarded input sections
 
- .data          0x00000000        0x0 build/gpio.o
  .bss           0x00000000        0x0 build/gpio.o
  .ARM.attributes
                 0x00000000        0x0 build/gpio.o
@@ -11,7 +10,6 @@ Discarded input sections
  .janus_2cc_veneer
                 0x00000000        0x0 build/gpio.o
  .v4_bx         0x00000000        0x0 build/gpio.o
- .data          0x00000000        0x0 build/main.o
  .bss           0x00000000        0x0 build/main.o
  .ARM.attributes
                 0x00000000        0x0 build/main.o
@@ -21,7 +19,6 @@ Discarded input sections
  .janus_2cc_veneer
                 0x00000000        0x0 build/main.o
  .v4_bx         0x00000000        0x0 build/main.o
- .data          0x00000000        0x0 build/timer.o
  .bss           0x00000000        0x0 build/timer.o
  .ARM.attributes
                 0x00000000        0x0 build/timer.o
@@ -48,16 +45,22 @@ LOAD build/timer.o
  .init          0x00008000        0x4 build/main.o
                 0x00008000                _start
 
-.text           0x00008004       0xfc
+.text           0x00008004      0x108
  *(.text)
  .text          0x00008004       0x84 build/gpio.o
                 0x0000800c                SetGpioFunction
                 0x00008004                GetGpioAddress
                 0x00008054                SetGpio
- .text          0x00008088       0x44 build/main.o
- .text          0x000080cc       0x34 build/timer.o
-                0x000080cc                GetCounterValue
-                0x000080d8                Wait
+ .text          0x00008088       0x50 build/main.o
+ .text          0x000080d8       0x34 build/timer.o
+                0x000080d8                GetCounterValue
+                0x000080e4                Wait
+
+.data           0x0000810c        0x4
+ *(.data)
+ .data          0x0000810c        0x0 build/gpio.o
+ .data          0x0000810c        0x4 build/main.o
+ .data          0x00008110        0x0 build/timer.o
 
 /DISCARD/
  *(*)

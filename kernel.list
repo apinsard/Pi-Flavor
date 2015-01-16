@@ -53,37 +53,40 @@ Disassembly of section .text:
     808c:	e3a00010 	mov	r0, #16	; 0x10
     8090:	e3a01001 	mov	r1, #1	; 0x1
     8094:	ebffffdc 	bl	800c <SetGpioFunction>
+    8098:	e59f4034 	ldr	r4, [pc, #52]	; 80d4 <mainloop$+0x30>
+    809c:	e5944000 	ldr	r4, [r4]
+    80a0:	e3a05000 	mov	r5, #0	; 0x0
 
-00008098 <mainloop$>:
-    8098:	e3a00010 	mov	r0, #16	; 0x10
-    809c:	e3a01000 	mov	r1, #0	; 0x0
-    80a0:	ebffffeb 	bl	8054 <SetGpio>
-    80a4:	e3a00001 	mov	r0, #1	; 0x1
-    80a8:	e1a00800 	lsl	r0, r0, #16
-    80ac:	eb000009 	bl	80d8 <Wait>
-    80b0:	e3a00010 	mov	r0, #16	; 0x10
-    80b4:	e3a01001 	mov	r1, #1	; 0x1
-    80b8:	ebffffe5 	bl	8054 <SetGpio>
-    80bc:	e3a00001 	mov	r0, #1	; 0x1
-    80c0:	e1a00980 	lsl	r0, r0, #19
-    80c4:	eb000003 	bl	80d8 <Wait>
-    80c8:	eafffff2 	b	8098 <mainloop$>
+000080a4 <mainloop$>:
+    80a4:	e3a00010 	mov	r0, #16	; 0x10
+    80a8:	e3a01001 	mov	r1, #1	; 0x1
+    80ac:	e1a01511 	lsl	r1, r1, r5
+    80b0:	e0011004 	and	r1, r1, r4
+    80b4:	ebffffe6 	bl	8054 <SetGpio>
+    80b8:	e3a00001 	mov	r0, #1	; 0x1
+    80bc:	e1a00980 	lsl	r0, r0, #19
+    80c0:	eb000007 	bl	80e4 <Wait>
+    80c4:	e2855001 	add	r5, r5, #1	; 0x1
+    80c8:	e355001f 	cmp	r5, #31	; 0x1f
+    80cc:	83a05000 	movhi	r5, #0	; 0x0
+    80d0:	eafffff3 	b	80a4 <mainloop$>
+    80d4:	0000810c 	.word	0x0000810c
 
-000080cc <GetCounterValue>:
-    80cc:	e59f0028 	ldr	r0, [pc, #40]	; 80fc <waitLoop$+0x10>
-    80d0:	e1c000d4 	ldrd	r0, [r0, #4]
-    80d4:	e1a0f00e 	mov	pc, lr
+000080d8 <GetCounterValue>:
+    80d8:	e59f0028 	ldr	r0, [pc, #40]	; 8108 <waitLoop$+0x10>
+    80dc:	e1c000d4 	ldrd	r0, [r0, #4]
+    80e0:	e1a0f00e 	mov	pc, lr
 
-000080d8 <Wait>:
-    80d8:	e92d4000 	push	{lr}
-    80dc:	e92d0001 	push	{r0}
-    80e0:	ebfffff9 	bl	80cc <GetCounterValue>
-    80e4:	e8bd0002 	pop	{r1}
-    80e8:	e0802001 	add	r2, r0, r1
+000080e4 <Wait>:
+    80e4:	e92d4000 	push	{lr}
+    80e8:	e92d0001 	push	{r0}
+    80ec:	ebfffff9 	bl	80d8 <GetCounterValue>
+    80f0:	e8bd0002 	pop	{r1}
+    80f4:	e0802001 	add	r2, r0, r1
 
-000080ec <waitLoop$>:
-    80ec:	ebfffff6 	bl	80cc <GetCounterValue>
-    80f0:	e1500002 	cmp	r0, r2
-    80f4:	9afffffc 	bls	80ec <waitLoop$>
-    80f8:	e8bd8000 	pop	{pc}
-    80fc:	20003000 	.word	0x20003000
+000080f8 <waitLoop$>:
+    80f8:	ebfffff6 	bl	80d8 <GetCounterValue>
+    80fc:	e1500002 	cmp	r0, r2
+    8100:	9afffffc 	bls	80f8 <waitLoop$>
+    8104:	e8bd8000 	pop	{pc}
+    8108:	20003000 	.word	0x20003000

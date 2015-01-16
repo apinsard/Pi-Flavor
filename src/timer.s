@@ -39,9 +39,9 @@ Wait:
   .unreq nbUsec
 
   @ And finally, wait
-  waitLoop$:
-    bl GetCounterValue
-    cmp counterVal, gapToWait
+waitLoop$:
+  bl GetCounterValue
+  cmp counterVal, gapToWait
   bls waitLoop$
 
   pop {pc} @ < Return
